@@ -2,7 +2,7 @@ import './PopupCard.css';
 
 const PopupCard = (props) => {
   const { pin } = props;
-  const { username, title, description, review } = pin;
+  const { username, title, description, review, rating } = pin;
 
   return (
     <div className="card">
@@ -17,11 +17,9 @@ const PopupCard = (props) => {
       <div className="field">
         <label>Rating</label>
         <div id="rating">
-          <span className="material-icons">star_rate</span>
-          <span className="material-icons">star_rate</span>
-          <span className="material-icons">star_rate</span>
-          <span className="material-icons">star_rate</span>
-          <span className="material-icons">star_rate</span>
+          {Array(rating).fill(
+            <span className="material-icons">star_rate</span>
+          )}
         </div>
       </div>
       <div className="field">

@@ -1,0 +1,22 @@
+.user-log {
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+.user-log .buttons {
+  display: block;
+  gap: 10px;
+  margin: 10px;
+}
+
+.user-log button {
+  font-size: large;
+  color: rgb(255, 255, 255);
+  background-color: rgb(242, 21, 113);
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 10%;
+  margin: 0 5px;
+  width: 90px;
+}
