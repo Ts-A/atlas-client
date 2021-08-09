@@ -1,16 +1,10 @@
 import { useState } from 'react';
 import './pinForm.css';
-
-const defaultState = {
-  title: '',
-  description: '',
-  rating: 5,
-  review: '',
-};
+import { defaultFormState } from '../../defaultStates';
 
 const PinForm = (props) => {
   const { submitHandler } = props;
-  const [formData, setFormData] = useState(defaultState);
+  const [formData, setFormData] = useState(defaultFormState);
 
   const handleInputChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -20,7 +14,7 @@ const PinForm = (props) => {
     e.preventDefault();
     // validate(data);
     submitHandler(formData);
-    setFormData(defaultState);
+    setFormData(defaultFormState);
   };
 
   return (

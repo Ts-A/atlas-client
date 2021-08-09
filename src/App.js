@@ -1,10 +1,11 @@
+import React from 'react';
 import Map from './components/Map/Map';
 
 const App = () => {
   return (
-    <div className="app">
-      <Map></Map>
-    </div>
+    <React.Fragment key="app">
+      <Map />
+    </React.Fragment>
   );
 };
 
