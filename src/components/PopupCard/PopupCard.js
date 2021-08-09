@@ -1,36 +1,35 @@
 import './PopupCard.css';
 
-const PopupCard = () => {
+const PopupCard = (props) => {
+  const { pin } = props;
+  const { username, title, description, review } = pin;
+
   return (
     <div className="card">
       <div className="field">
         <label>Title</label>
-        <div>Mirapur</div>
+        <div>{title}</div>
       </div>
       <div className="field">
         <label>Description</label>
-        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        <div>{description}</div>
       </div>
       <div className="field">
         <label>Rating</label>
         <div id="rating">
-          <span class="material-icons">star_rate</span>
-          <span class="material-icons">star_rate</span>
-          <span class="material-icons">star_rate</span>
-          <span class="material-icons">star_rate</span>
-          <span class="material-icons">star_rate</span>
+          <span className="material-icons">star_rate</span>
+          <span className="material-icons">star_rate</span>
+          <span className="material-icons">star_rate</span>
+          <span className="material-icons">star_rate</span>
+          <span className="material-icons">star_rate</span>
         </div>
       </div>
       <div className="field">
         <label>Review</label>
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus
-          in ornare quam viverra orci.
-        </div>
+        <div>{review}</div>
       </div>
       <div className="field information">
-        <div>Ajeet</div>
+        <div>{username}</div>
         <div>2 hrs ago</div>
       </div>
     </div>

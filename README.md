@@ -18,6 +18,9 @@ React.js
 
 ### Production
 
+react-map-gl
+axios
+
 ### Development
 
 ---
@@ -30,4 +33,4 @@ npm install
 npm start
 ```
 
-> Make sure to add the .env and the required keys in the config folder before running the client.
+> Make sure to add the .env and the required keys in the root folder before running the client.
