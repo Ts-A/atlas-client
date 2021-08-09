@@ -1,0 +1,26 @@
+.card {
+  display: grid;
+  width: 250px;
+  min-height: 300px;
+  align-content: space-around;
+  gap: 7px;
+}
+
+.field label {
+  font-size: 24px;
+  border-bottom: 1px solid red;
+  font-family: 'Lato', sans-serif;
+}
+
+.field div {
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+.field.information {
+  justify-self: right;
+}
+
+.field #rating span {
+  color: gold;
+}
