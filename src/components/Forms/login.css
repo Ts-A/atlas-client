@@ -16,17 +16,6 @@
   z-index: 20;
 }
 
-.backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vw;
-  background-color: black;
-  opacity: 0.8;
-  z-index: 10;
-}
-
 .header div {
   font-size: 40px;
   text-align: center;

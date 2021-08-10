@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { defaultUserRegisterState } from '../../defaultStates';
 import './register.css';
 

@@ -10,8 +10,8 @@ import {
   defaultPinsState,
 } from '../../defaultStates';
 import './map.css';
-import Register from '../Forms/register';
-import Login from '../Forms/login';
+import RegisterForm from '../RegisterForm/RegisterForm';
+import LoginForm from '../LoginForm/LoginForm';
 
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
@@ -176,13 +176,13 @@ const Map = () => {
         )}
       </div>
       {showRegister && (
-        <Register
+        <RegisterForm
           toggleShowRegister={toggleShowRegister}
           createNewUser={createNewUser}
         />
       )}
       {showLogin && (
-        <Login toggleShowLogin={toggleShowLogin} loginUser={loginUser} />
+        <LoginForm toggleShowLogin={toggleShowLogin} loginUser={loginUser} />
       )}
     </ReactMapGL>
   );

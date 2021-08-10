@@ -13,6 +13,7 @@
   background-color: rgb(246, 255, 238);
   border-radius: 10px;
   box-shadow: 5px 5px 20px 5px rgb(1, 12, 38);
+  z-index: 20;
 }
 
 .header div {
