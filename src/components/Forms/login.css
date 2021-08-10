@@ -13,6 +13,18 @@
   background-color: rgb(246, 255, 238);
   border-radius: 10px;
   box-shadow: 5px 5px 20px 5px rgb(1, 12, 38);
+  z-index: 20;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
+  background-color: black;
+  opacity: 0.8;
+  z-index: 10;
 }
 
 .header div {
