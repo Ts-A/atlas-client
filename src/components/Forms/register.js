@@ -1,22 +1,42 @@
 import { useState } from 'react';
+import { defaultUserRegisterState } from '../../defaultStates';
 import './register.css';
 
 const Register = (props) => {
-  const { toggleShowRegister } = props;
-  const handleSubmit = () => {};
-  const [userData, setUserData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+  const { toggleShowRegister, createNewUser } = props;
+
+  const [userData, setUserData] = useState(defaultUserRegisterState);
+
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
   const handleInputChange = (event) => {
     setUserData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
   };
+
   const handleOnClose = () => {
     toggleShowRegister(false);
+  };
+
+  const handleSubmit = (event) => {
+    try {
+      event.preventDefault();
+      if (
+        userData.email.trim() === '' ||
+        userData.username.trim() === '' ||
+        userData.password.length <= 4
+      )
+        throw new Error('Re-Check your credentials');
+      createNewUser(userData, setSuccess, setError);
+      setUserData(defaultUserRegisterState);
+    } catch (error) {
+      setError(true);
+      setSuccess(false);
+      console.error(error.message);
+    }
   };
 
   return (
@@ -25,7 +45,7 @@ const Register = (props) => {
         <div>
           Welcome
           <span
-            class="material-icons"
+            className="material-icons"
             style={{ fontSize: '32px', color: '#af1100' }}
           >
             room
@@ -65,6 +85,12 @@ const Register = (props) => {
       <div className="field">
         <button type="submit">Register</button>
       </div>
+      {success && <div id="success">Successful!</div>}
+      {error && (
+        <div id="failure">
+          Something went wrong! Please re-check your details
+        </div>
+      )}
     </form>
   );
 };

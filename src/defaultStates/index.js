@@ -20,3 +20,9 @@ export const defaultFormState = {
 };
 
 export const defaultPinsState = [];
+
+export const defaultUserRegisterState = {
+  username: '',
+  email: '',
+  password: '',
+};

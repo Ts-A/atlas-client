@@ -2,21 +2,41 @@ import { useState } from 'react';
 import './login.css';
 
 const Login = (props) => {
-  const { toggleShowLogin } = props;
-  const handleSubmit = () => {};
+  const { toggleShowLogin, loginUser } = props;
+
+  const handleSubmit = (event) => {
+    try {
+      event.preventDefault();
+
+      if (userData.username.trim() === '' || userData.password.length <= 4)
+        throw new Error('Re-Check your credentials');
+      loginUser(userData, setSuccess, setError);
+      setSuccess(true);
+      setError(false);
+    } catch (error) {
+      setSuccess(false);
+      setError(true);
+      console.error(error.message);
+    }
+  };
   const [userData, setUserData] = useState({
     username: '',
     password: '',
   });
+
   const handleInputChange = (event) => {
     setUserData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
   };
+
   const handleOnClose = () => {
     toggleShowLogin(false);
   };
+
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
@@ -24,7 +44,7 @@ const Login = (props) => {
         <div>
           Login
           <span
-            class="material-icons"
+            className="material-icons"
             style={{ fontSize: '32px', color: '#af1100' }}
           >
             room
@@ -55,6 +75,8 @@ const Login = (props) => {
       <div className="field">
         <button type="submit">Login</button>
       </div>
+      {success && <div id="success">Successful!</div>}
+      {error && <div id="failure">Something went wrong</div>}
     </form>
   );
 };

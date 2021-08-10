@@ -23,7 +23,7 @@ const Map = () => {
   const [showLogin, toggleShowLogin] = useState(false);
   const [currentID, setCurrentID] = useState(null);
   const [showPopup, togglePopup] = useState(false);
-  const [currentUser, setCurrentUser] = useState('Ajeet');
+  const [currentUser, setCurrentUser] = useState(null);
 
   const formSubmitHandler = async (data) => {
     try {
@@ -37,6 +37,40 @@ const Map = () => {
       console.log(responseJSON);
       setPins((prev) => [...prev, responseJSON.data.pin]);
     } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const createNewUser = async (data, setSuccess, setError) => {
+    try {
+      const responseJSON = await axios.post(
+        `${REACT_APP_SERVER}/api/user/signup`,
+        { ...data }
+      );
+      setError(false);
+      setSuccess(true);
+      setCurrentUser(responseJSON.data.user.username);
+      console.log(responseJSON);
+    } catch (error) {
+      setSuccess(false);
+      setError(true);
+      console.error(error.message);
+    }
+  };
+
+  const loginUser = async (data, setSuccess, setError) => {
+    try {
+      const responseJSON = await axios.post(
+        `${REACT_APP_SERVER}/api/user/login`,
+        { ...data }
+      );
+      setError(false);
+      setSuccess(true);
+      setCurrentUser(responseJSON.data.user.username);
+      console.log(responseJSON);
+    } catch (error) {
+      setSuccess(false);
+      setError(true);
       console.error(error.message);
     }
   };
@@ -127,8 +161,15 @@ const Map = () => {
           </div>
         )}
       </div>
-      {showRegister && <Register toggleShowRegister={toggleShowRegister} />}
-      {showLogin && <Login toggleShowLogin={toggleShowLogin} />}
+      {showRegister && (
+        <Register
+          toggleShowRegister={toggleShowRegister}
+          createNewUser={createNewUser}
+        />
+      )}
+      {showLogin && (
+        <Login toggleShowLogin={toggleShowLogin} loginUser={loginUser} />
+      )}
     </ReactMapGL>
   );
 };
