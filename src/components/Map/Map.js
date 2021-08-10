@@ -49,6 +49,9 @@ const Map = () => {
       );
       setError(false);
       setSuccess(true);
+      toggleShowRegister(false);
+      const userJSON = JSON.stringify(responseJSON.data.user);
+      localStorage.setItem('user', userJSON);
       setCurrentUser(responseJSON.data.user.username);
       console.log(responseJSON);
     } catch (error) {
@@ -66,14 +69,24 @@ const Map = () => {
       );
       setError(false);
       setSuccess(true);
+      toggleShowLogin(false);
+      const userJSON = JSON.stringify(responseJSON.data.user);
+      localStorage.setItem('user', userJSON);
       setCurrentUser(responseJSON.data.user.username);
-      console.log(responseJSON);
+      console.log(userJSON);
     } catch (error) {
       setSuccess(false);
       setError(true);
       console.error(error.message);
     }
   };
+
+  useEffect(() => {
+    const userJSON = localStorage.getItem('user');
+    const parsedUser = JSON.parse(userJSON);
+    console.log(parsedUser);
+    setCurrentUser(parsedUser);
+  }, []);
 
   useEffect(() => {
     try {
@@ -90,6 +103,7 @@ const Map = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     setCurrentUser(null);
+    localStorage.clear('user');
   };
 
   const handleRegister = (e) => {
