@@ -9,21 +9,17 @@ import {
   defaultViewport,
   defaultPinsState,
 } from '../../defaultStates';
-import './map.css';
-import RegisterForm from '../RegisterForm/RegisterForm';
-import LoginForm from '../LoginForm/LoginForm';
 
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
-const Map = () => {
+const Map = (props) => {
+  const { currentUser, setCurrentUser } = props;
+
   const [pins, setPins] = useState(defaultPinsState);
   const [newPlace, setNewPlace] = useState(defaultNewPlace);
   const [viewport, setViewport] = useState(defaultViewport);
-  const [showRegister, toggleShowRegister] = useState(false);
-  const [showLogin, toggleShowLogin] = useState(false);
   const [currentID, setCurrentID] = useState(null);
   const [showPopup, togglePopup] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
 
   const formSubmitHandler = async (data) => {
     try {
@@ -41,52 +37,12 @@ const Map = () => {
     }
   };
 
-  const createNewUser = async (data, setSuccess, setError) => {
-    try {
-      const responseJSON = await axios.post(
-        `${REACT_APP_SERVER}/api/user/signup`,
-        { ...data }
-      );
-      setError(false);
-      setSuccess(true);
-      toggleShowRegister(false);
-      const userJSON = JSON.stringify(responseJSON.data.user);
-      localStorage.setItem('user', userJSON);
-      setCurrentUser(responseJSON.data.user.username);
-      console.log(responseJSON);
-    } catch (error) {
-      setSuccess(false);
-      setError(true);
-      console.error(error.message);
-    }
-  };
-
-  const loginUser = async (data, setSuccess, setError) => {
-    try {
-      const responseJSON = await axios.post(
-        `${REACT_APP_SERVER}/api/user/login`,
-        { ...data }
-      );
-      setError(false);
-      setSuccess(true);
-      toggleShowLogin(false);
-      const userJSON = JSON.stringify(responseJSON.data.user);
-      localStorage.setItem('user', userJSON);
-      setCurrentUser(responseJSON.data.user.username);
-      console.log(userJSON);
-    } catch (error) {
-      setSuccess(false);
-      setError(true);
-      console.error(error.message);
-    }
-  };
-
   useEffect(() => {
     const userJSON = localStorage.getItem('user');
     const parsedUser = JSON.parse(userJSON);
     console.log(parsedUser);
     setCurrentUser(parsedUser);
-  }, []);
+  }, [setCurrentUser]);
 
   useEffect(() => {
     try {
@@ -99,24 +55,6 @@ const Map = () => {
       console.error(error.message);
     }
   }, [pins]);
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    setCurrentUser(null);
-    localStorage.clear('user');
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    toggleShowLogin(false);
-    toggleShowRegister(true);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    toggleShowRegister(false);
-    toggleShowLogin(true);
-  };
 
   const handleOnClose = () => {
     setNewPlace(defaultNewPlace);
@@ -157,33 +95,6 @@ const Map = () => {
         formSubmitHandler={formSubmitHandler}
         handleOnClose={handleOnClose}
       />
-      <div className="user-log">
-        {currentUser ? (
-          <div className="buttons">
-            <button type="submit" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className="buttons">
-            <button type="submit" onClick={handleLogin}>
-              Login
-            </button>
-            <button type="submit" onClick={handleRegister}>
-              Register
-            </button>
-          </div>
-        )}
-      </div>
-      {showRegister && (
-        <RegisterForm
-          toggleShowRegister={toggleShowRegister}
-          createNewUser={createNewUser}
-        />
-      )}
-      {showLogin && (
-        <LoginForm toggleShowLogin={toggleShowLogin} loginUser={loginUser} />
-      )}
     </ReactMapGL>
   );
 };
