@@ -7,9 +7,6 @@ const Register = (props) => {
 
   const [userData, setUserData] = useState(defaultUserRegisterState);
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-
   const handleInputChange = (event) => {
     setUserData((prev) => ({
       ...prev,
@@ -21,21 +18,21 @@ const Register = (props) => {
     toggleShowRegister((prev) => ({ ...prev, register: false }));
   };
 
+  const [warning, setWarning] = useState({ empty: true, message: '' });
+
   const handleSubmit = (event) => {
     try {
       event.preventDefault();
-      if (
-        userData.email.trim() === '' ||
-        userData.username.trim() === '' ||
-        userData.password.length <= 4
-      )
-        throw new Error('Re-Check your credentials');
-      createNewUser(userData, setSuccess, setError);
+      if (userData.username.trim().length === 0)
+        throw new Error('Username field cannot be empty');
+      if (userData.password.length <= 5)
+        throw new Error('Password field should have a minimum of 5 characters');
+      if (!userData.email.includes('@') || !userData.email.includes('.'))
+        throw new Error('Enter a valid mail id');
+      createNewUser(userData);
       setUserData(defaultUserRegisterState);
     } catch (error) {
-      setError(true);
-      setSuccess(false);
-      console.error(error.message);
+      setWarning({ empty: false, message: error.message });
     }
   };
 
@@ -85,12 +82,7 @@ const Register = (props) => {
       <div className="field">
         <button type="submit">Register</button>
       </div>
-      {success && <div id="success">Successful!</div>}
-      {error && (
-        <div id="failure">
-          Something went wrong! Please re-check your details
-        </div>
-      )}
+      {!warning.empty && <div id="warning">{warning.message}</div>}
     </form>
   );
 };

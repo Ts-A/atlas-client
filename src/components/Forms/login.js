@@ -8,15 +8,13 @@ const Login = (props) => {
     try {
       event.preventDefault();
 
-      if (userData.username.trim() === '' || userData.password.length <= 4)
-        throw new Error('Re-Check your credentials');
-      loginUser(userData, setSuccess, setError);
-      setSuccess(true);
-      setError(false);
+      if (userData.username.trim().length === 0)
+        throw new Error('Username field cannot be empty');
+      if (userData.password.length === 0)
+        throw new Error('Password field cannot be empty');
+      loginUser(userData);
     } catch (error) {
-      setSuccess(false);
-      setError(true);
-      console.error(error.message);
+      setWarning((prev) => ({ ...prev, empty: false, message: error.message }));
     }
   };
   const [userData, setUserData] = useState({
@@ -25,6 +23,7 @@ const Login = (props) => {
   });
 
   const handleInputChange = (event) => {
+    setWarning({ empty: true, message: '' });
     setUserData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
@@ -35,8 +34,7 @@ const Login = (props) => {
     toggleShowLogin((prev) => ({ ...prev, login: false }));
   };
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [warning, setWarning] = useState({ empty: true, message: '' });
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
@@ -75,8 +73,7 @@ const Login = (props) => {
       <div className="field">
         <button type="submit">Login</button>
       </div>
-      {success && <div id="success">Successful!</div>}
-      {error && <div id="failure">Something went wrong</div>}
+      {!warning.empty && <div id="warning">{warning.message}</div>}
     </form>
   );
 };

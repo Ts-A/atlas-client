@@ -61,16 +61,8 @@
   border-radius: 10px;
 }
 
-#success,
-#failure {
+#warning {
   font-size: 15px;
   text-align: center;
-}
-
-#success {
-  color: green;
-}
-
-#failure {
   color: red;
 }

@@ -15,7 +15,7 @@ const UserLog = (props) => {
     login: false,
   });
 
-  const createNewUser = async (data, setSuccess, setError) => {
+  const createNewUser = async (data) => {
     try {
       const responseJSON = await axios.post(
         `${REACT_APP_SERVER}/api/user/signup`,
@@ -23,20 +23,16 @@ const UserLog = (props) => {
       );
       const { user } = responseJSON.data;
       toast.success(`Welcome, ${user.username}`);
-      setError(false);
-      setSuccess(true);
       setShowForm((prev) => ({ ...prev, register: false }));
       localStorage.setItem('user', JSON.stringify(user));
       setCurrentUser(user.username);
     } catch (error) {
-      setSuccess(false);
       toast.error(`Please check your credentials again!`);
-      setError(true);
       console.error(error.message);
     }
   };
 
-  const loginUser = async (data, setSuccess, setError) => {
+  const loginUser = async (data) => {
     try {
       const responseJSON = await axios.post(
         `${REACT_APP_SERVER}/api/user/login`,
@@ -44,15 +40,10 @@ const UserLog = (props) => {
       );
       const { user } = responseJSON.data;
       toast.success(`Welcome back, ${user.username}`);
-      setError(false);
-      setSuccess(true);
       setShowForm((prev) => ({ ...prev, login: false }));
-      const userJSON = JSON.stringify(user);
-      localStorage.setItem('user', userJSON);
+      localStorage.setItem('user', JSON.stringify(user));
       setCurrentUser(user.username);
     } catch (error) {
-      setSuccess(false);
-      setError(true);
       toast.error(`Please check your credentials again!`);
       console.error(error.message);
     }
