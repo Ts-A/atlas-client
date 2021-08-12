@@ -18,7 +18,7 @@ const Register = (props) => {
   };
 
   const handleOnClose = () => {
-    toggleShowRegister(false);
+    toggleShowRegister((prev) => ({ ...prev, register: false }));
   };
 
   const handleSubmit = (event) => {

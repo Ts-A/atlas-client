@@ -32,7 +32,7 @@ const Login = (props) => {
   };
 
   const handleOnClose = () => {
-    toggleShowLogin(false);
+    toggleShowLogin((prev) => ({ ...prev, login: false }));
   };
 
   const [success, setSuccess] = useState(false);

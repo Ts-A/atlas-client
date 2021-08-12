@@ -10,24 +10,24 @@ const { REACT_APP_SERVER } = process.env;
 const UserLog = (props) => {
   const { currentUser, setCurrentUser } = props;
 
-  const [showRegister, toggleShowRegister] = useState(false);
-  const [showLogin, toggleShowLogin] = useState(false);
+  const [showForm, setShowForm] = useState({
+    register: false,
+    login: false,
+  });
 
   const createNewUser = async (data, setSuccess, setError) => {
     try {
       const responseJSON = await axios.post(
         `${REACT_APP_SERVER}/api/user/signup`,
-        { ...data }
+        { user: data }
       );
       const { user } = responseJSON.data;
-      toast.success(`Welcome back, ${user.username}`);
+      toast.success(`Welcome, ${user.username}`);
       setError(false);
       setSuccess(true);
-      toggleShowRegister(false);
-      const userJSON = JSON.stringify(user);
-      localStorage.setItem('user', userJSON);
+      setShowForm((prev) => ({ ...prev, register: false }));
+      localStorage.setItem('user', JSON.stringify(user));
       setCurrentUser(user.username);
-      console.log(responseJSON);
     } catch (error) {
       setSuccess(false);
       toast.error(`Please check your credentials again!`);
@@ -40,17 +40,16 @@ const UserLog = (props) => {
     try {
       const responseJSON = await axios.post(
         `${REACT_APP_SERVER}/api/user/login`,
-        { ...data }
+        { user: data }
       );
       const { user } = responseJSON.data;
       toast.success(`Welcome back, ${user.username}`);
       setError(false);
       setSuccess(true);
-      toggleShowLogin(false);
+      setShowForm((prev) => ({ ...prev, login: false }));
       const userJSON = JSON.stringify(user);
       localStorage.setItem('user', userJSON);
       setCurrentUser(user.username);
-      console.log(userJSON);
     } catch (error) {
       setSuccess(false);
       setError(true);
@@ -67,14 +66,12 @@ const UserLog = (props) => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    toggleShowLogin(false);
-    toggleShowRegister(true);
+    setShowForm((prev) => ({ ...prev, login: false, register: true }));
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    toggleShowRegister(false);
-    toggleShowLogin(true);
+    setShowForm((prev) => ({ ...prev, login: true, register: false }));
   };
 
   return (
@@ -97,14 +94,14 @@ const UserLog = (props) => {
           </div>
         )}
       </div>
-      {showRegister && (
+      {showForm.register && (
         <RegisterForm
-          toggleShowRegister={toggleShowRegister}
+          toggleShowRegister={setShowForm}
           createNewUser={createNewUser}
         />
       )}
-      {showLogin && (
-        <LoginForm toggleShowLogin={toggleShowLogin} loginUser={loginUser} />
+      {showForm.login && (
+        <LoginForm toggleShowLogin={setShowForm} loginUser={loginUser} />
       )}
       <Toaster
         position="top-left"

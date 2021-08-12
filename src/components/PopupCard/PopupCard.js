@@ -1,8 +1,9 @@
 import './PopupCard.css';
+import moment from 'moment';
 
 const PopupCard = (props) => {
   const { pin } = props;
-  const { username, title, description, review, rating } = pin;
+  const { username, title, description, review, rating, createdAt } = pin;
 
   return (
     <div className="card">
@@ -28,7 +29,7 @@ const PopupCard = (props) => {
       </div>
       <div className="field information">
         <div>{username}</div>
-        <div>2 hrs ago</div>
+        <div>{moment(createdAt).fromNow()}</div>
       </div>
     </div>
   );
