@@ -127,7 +127,7 @@ const SearchForm = (props) => {
   return (
     <React.Fragment key="form-container">
       {menuOpen ? (
-        <div className={'form-container'}>
+        <div className="search-form-container">
           <div className="icon" onClick={() => toggleMenuOpen(false)}>
             <span className="material-icons menu">close</span>
           </div>

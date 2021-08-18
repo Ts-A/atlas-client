@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import './login.css';
 import map from '../../images/map.jpg';
+import { toast } from 'react-hot-toast';
 
 const Login = (props) => {
   const { toggleShowLogin, loginUser } = props;
@@ -24,6 +25,7 @@ const Login = (props) => {
       loginUser({ username, password });
     } catch (error) {
       console.log(error.message);
+      toast.error(error.message, { position: 'top-center' });
     }
   };
 
@@ -44,7 +46,10 @@ const Login = (props) => {
       <div className="login-form">
         <form onSubmit={handleSubmit}>
           <div className="form-heading">
-            <div>Login</div>
+            <div>
+              Login
+              <span className="material-icons room-icon">room</span>
+            </div>
           </div>
           <div className="form-fields">
             <div className="form-field">

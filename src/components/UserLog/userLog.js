@@ -3,7 +3,7 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 import LoginForm from '../LoginForm/LoginForm';
 import axios from 'axios';
 import './userLog.css';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 const { REACT_APP_SERVER } = process.env;
 
@@ -51,6 +51,7 @@ const UserLog = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    toast.success(`See ya later, ${currentUser}`);
     setCurrentUser(null);
     localStorage.clear('user');
   };
@@ -94,37 +95,6 @@ const UserLog = (props) => {
       {showForm.login && (
         <LoginForm toggleShowLogin={setShowForm} loginUser={loginUser} />
       )}
-      <Toaster
-        position="top-left"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          // Define default options
-          className: '',
-          duration: 5000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-          // Default options for specific types
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-          error: {
-            duration: 3000,
-            theme: {
-              primary: 'red',
-              secondary: 'white',
-            },
-          },
-        }}
-      />
     </React.Fragment>
   );
 };
