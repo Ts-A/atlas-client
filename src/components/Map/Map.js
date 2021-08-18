@@ -9,6 +9,7 @@ import {
   defaultViewport,
   defaultPinsState,
 } from '../../defaultStates';
+import SearchForm from '../Forms/searchForm';
 
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
@@ -72,6 +73,10 @@ const Map = (props) => {
     setNewPlace({ isSet: true, latitude, longitude });
   };
 
+  const handleSearchSubmit = (latitude, longitude) => {
+    setViewport((prev) => ({ ...prev, latitude, longitude, zoom: 10 }));
+  };
+
   return (
     <ReactMapGL
       {...viewport}
@@ -79,7 +84,7 @@ const Map = (props) => {
       mapStyle={REACT_APP_MAP}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       onDblClick={handleDoubleClick}
-      transitionDuration={700}
+      transitionDuration={300}
     >
       <Pins
         pins={pins}
@@ -89,12 +94,15 @@ const Map = (props) => {
         togglePopup={togglePopup}
         currentID={currentID}
       />
-      <NewPlace
-        viewport={viewport}
-        newPlace={newPlace}
-        formSubmitHandler={formSubmitHandler}
-        handleOnClose={handleOnClose}
-      />
+      {newPlace.isSet && (
+        <NewPlace
+          viewport={viewport}
+          newPlace={newPlace}
+          formSubmitHandler={formSubmitHandler}
+          handleOnClose={handleOnClose}
+        />
+      )}
+      <SearchForm handleSearchSubmit={handleSearchSubmit} viewport={viewport} />
     </ReactMapGL>
   );
 };
