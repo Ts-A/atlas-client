@@ -1,6 +1,8 @@
 .close {
   position: absolute;
   cursor: pointer;
+  top: 6px;
+  right: 6px;
 }
 
 .room-icon {
@@ -54,7 +56,7 @@
 }
 
 .login-form .form-fields {
-  height: 50%;
+  height: 60%;
   width: 100%;
   margin: 10px 0;
   display: grid;
