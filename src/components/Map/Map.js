@@ -29,7 +29,7 @@ const Map = (props) => {
       data.latitude = newPlace.latitude;
       data.longitude = newPlace.longitude;
       const responseJSON = await axios.post(`${REACT_APP_SERVER}/api/pin/`, {
-        ...data,
+        pin: data,
       });
       console.log(responseJSON);
       setPins((prev) => [...prev, responseJSON.data.pin]);
@@ -55,7 +55,7 @@ const Map = (props) => {
     } catch (error) {
       console.error(error.message);
     }
-  }, [pins]);
+  }, []);
 
   const handleOnClose = () => {
     setNewPlace(defaultNewPlace);

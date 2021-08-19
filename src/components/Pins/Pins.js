@@ -38,12 +38,12 @@ const Pins = (props) => {
                 <Popup
                   latitude={latitude}
                   longitude={longitude}
-                  closeButton={true}
+                  closeButton={false}
                   closeOnClick={false}
                   onClose={() => togglePopup(false)}
                   anchor="left"
                 >
-                  <PopupCard pin={pin} />
+                  <PopupCard togglePopup={togglePopup} pin={pin} />
                 </Popup>
               )}
             </div>
