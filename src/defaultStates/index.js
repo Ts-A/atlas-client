@@ -7,8 +7,6 @@ export const defaultNewPlace = {
 };
 
 export const defaultViewport = {
-  width: '100vw',
-  height: '100vh',
   latitude: 48.858093,
   longitude: 2.294694,
   zoom: 10,

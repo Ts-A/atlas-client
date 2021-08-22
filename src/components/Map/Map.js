@@ -10,6 +10,7 @@ import {
   defaultPinsState,
 } from '../../defaultStates';
 import SearchForm from '../Forms/searchForm';
+import { useCurrentWidth, useCurrentHeight } from '../../Helpers/Resize';
 
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
@@ -37,6 +38,8 @@ const Map = (props) => {
       console.error(error.message);
     }
   };
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const userJSON = localStorage.getItem('user');
@@ -80,6 +83,8 @@ const Map = (props) => {
   return (
     <ReactMapGL
       {...viewport}
+      width={useCurrentWidth()}
+      height={useCurrentHeight()}
       mapboxApiAccessToken={REACT_APP_MAPBOX}
       mapStyle={REACT_APP_MAP}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
