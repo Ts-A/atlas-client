@@ -1,26 +1,56 @@
-.card {
+.place-card {
+  height: 550px;
+  width: 300px;
+  border-radius: 20px;
   display: grid;
-  width: 250px;
-  min-height: 300px;
-  align-content: space-around;
-  gap: 7px;
+  grid-template-rows: repeat(5, 1fr);
+  padding-bottom: 20px;
 }
 
-.field label {
-  font-size: 24px;
-  border-bottom: 1px solid red;
-  font-family: 'Lato', sans-serif;
+.place-card .field-image {
+  grid-row: 1/4;
 }
 
-.field div {
-  font-size: 18px;
-  margin-top: 5px;
+.place-card .field-image img {
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
-.field.information {
+.place-card .field-information {
+  grid-row: 4/6;
+  display: grid;
+  margin: 10px 10px;
+}
+
+.place-card .field-title .title {
+  font-size: 32px;
+}
+
+.place-card .field-other {
   justify-self: right;
+  align-self: flex-end;
 }
 
-.field #rating span {
+.place-card .star {
   color: gold;
+}
+
+.field-content .description {
+  font-style: italic;
+  margin: 5px 0;
+  font-size: 14px;
+}
+.field-content .latlng {
+  font-style: italic;
+  font-weight: bold;
+  color: #0c1821;
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.field-other {
+  color: #ffef9f;
+  font-size: 18px;
 }

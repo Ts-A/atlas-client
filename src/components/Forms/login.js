@@ -1,61 +1,86 @@
-import { useState } from 'react';
+import React, { useRef } from 'react';
 import './login.css';
+import map from '../../images/map.jpg';
+import { toast } from 'react-hot-toast';
 
 const Login = (props) => {
-  const { toggleShowLogin } = props;
-  const handleSubmit = () => {};
-  const [userData, setUserData] = useState({
-    username: '',
-    password: '',
-  });
-  const handleInputChange = (event) => {
-    setUserData((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
+  const { toggleShowLogin, loginUser } = props;
+
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+
+  const handleSubmit = (event) => {
+    try {
+      event.preventDefault();
+
+      const username = usernameRef.current.value;
+      const password = passwordRef.current.value;
+
+      if (username.trim().length === 0)
+        throw new Error('Username field cannot be empty');
+      if (password.length === 0)
+        throw new Error('Password field cannot be empty');
+      usernameRef.current.value = '';
+      passwordRef.current.value = '';
+      loginUser({ username, password });
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message, { position: 'top-center' });
+    }
   };
+
   const handleOnClose = () => {
-    toggleShowLogin(false);
+    toggleShowLogin((prev) => ({ ...prev, login: false }));
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <div className="header">
-        <div>
-          Login
-          <span
-            class="material-icons"
-            style={{ fontSize: '32px', color: '#af1100' }}
-          >
-            room
-          </span>
-        </div>
-        <span className="material-icons close" onClick={handleOnClose}>
-          close
+    <div className="form-container">
+      <span className="close">
+        <span onClick={handleOnClose} className="material-icons">
+          cancel
         </span>
+      </span>
+      <div className="login-image">
+        <img src={map} alt="Globe" />
       </div>
-      <div className="field">
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={userData.username}
-          onChange={handleInputChange}
-        />
+      <div className="login-form">
+        <form onSubmit={handleSubmit}>
+          <div className="form-heading">
+            <div>
+              Login
+              <span className="material-icons room-icon">room</span>
+            </div>
+          </div>
+          <div className="form-fields">
+            <div className="form-field">
+              <div>
+                <span class="material-icons label-icon">account_circle</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Username*"
+                name="username"
+                ref={usernameRef}
+              />
+            </div>
+            <div className="form-field">
+              <div>
+                <span class="material-icons label-icon">lock</span>
+              </div>
+              <input
+                type="password"
+                placeholder="Password*"
+                name="password"
+                ref={passwordRef}
+              />
+            </div>
+          </div>
+          <div className="form-submission">
+            <button type="submit">Submit</button>
+          </div>
+        </form>
       </div>
-      <div className="field">
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={userData.password}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="field">
-        <button type="submit">Login</button>
-      </div>
-    </form>
+    </div>
   );
 };
 

@@ -2,14 +2,16 @@ export const defaultNewPlace = {
   isSet: false,
   latitude: 0,
   longitude: 0,
+  description: '',
+  flag: '',
 };
 
 export const defaultViewport = {
   width: '100vw',
   height: '100vh',
-  latitude: 28,
-  longitude: 80,
-  zoom: 4,
+  latitude: 48.858093,
+  longitude: 2.294694,
+  zoom: 10,
 };
 
 export const defaultFormState = {
@@ -20,3 +22,23 @@ export const defaultFormState = {
 };
 
 export const defaultPinsState = [];
+
+export const defaultUserRegisterState = {
+  username: '',
+  email: '',
+  password: '',
+};
+
+export const defaultPlaceData = {
+  isSet: false,
+  data: {
+    latitude: '',
+    longitude: '',
+    about: '',
+    flag: '',
+    city: '',
+    country: '',
+  },
+  hasImages: false,
+  imageURLs: [],
+};

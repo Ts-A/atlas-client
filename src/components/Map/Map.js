@@ -9,21 +9,18 @@ import {
   defaultViewport,
   defaultPinsState,
 } from '../../defaultStates';
-import './map.css';
-import Register from '../Forms/register';
-import Login from '../Forms/login';
+import SearchForm from '../Forms/searchForm';
 
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
-const Map = () => {
+const Map = (props) => {
+  const { currentUser, setCurrentUser } = props;
+
   const [pins, setPins] = useState(defaultPinsState);
   const [newPlace, setNewPlace] = useState(defaultNewPlace);
   const [viewport, setViewport] = useState(defaultViewport);
-  const [showRegister, toggleShowRegister] = useState(false);
-  const [showLogin, toggleShowLogin] = useState(false);
   const [currentID, setCurrentID] = useState(null);
   const [showPopup, togglePopup] = useState(false);
-  const [currentUser, setCurrentUser] = useState('Ajeet');
 
   const formSubmitHandler = async (data) => {
     try {
@@ -32,7 +29,7 @@ const Map = () => {
       data.latitude = newPlace.latitude;
       data.longitude = newPlace.longitude;
       const responseJSON = await axios.post(`${REACT_APP_SERVER}/api/pin/`, {
-        ...data,
+        pin: data,
       });
       console.log(responseJSON);
       setPins((prev) => [...prev, responseJSON.data.pin]);
@@ -40,6 +37,13 @@ const Map = () => {
       console.error(error.message);
     }
   };
+
+  useEffect(() => {
+    const userJSON = localStorage.getItem('user');
+    const parsedUser = JSON.parse(userJSON);
+    console.log(parsedUser);
+    setCurrentUser(parsedUser);
+  }, [setCurrentUser]);
 
   useEffect(() => {
     try {
@@ -51,24 +55,7 @@ const Map = () => {
     } catch (error) {
       console.error(error.message);
     }
-  }, [pins]);
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    setCurrentUser(null);
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    toggleShowLogin(false);
-    toggleShowRegister(true);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    toggleShowRegister(false);
-    toggleShowLogin(true);
-  };
+  }, []);
 
   const handleOnClose = () => {
     setNewPlace(defaultNewPlace);
@@ -86,6 +73,10 @@ const Map = () => {
     setNewPlace({ isSet: true, latitude, longitude });
   };
 
+  const handleSearchSubmit = (latitude, longitude) => {
+    setViewport((prev) => ({ ...prev, latitude, longitude, zoom: 10 }));
+  };
+
   return (
     <ReactMapGL
       {...viewport}
@@ -93,7 +84,7 @@ const Map = () => {
       mapStyle={REACT_APP_MAP}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       onDblClick={handleDoubleClick}
-      transitionDuration={700}
+      transitionDuration={300}
     >
       <Pins
         pins={pins}
@@ -103,32 +94,15 @@ const Map = () => {
         togglePopup={togglePopup}
         currentID={currentID}
       />
-      <NewPlace
-        viewport={viewport}
-        newPlace={newPlace}
-        formSubmitHandler={formSubmitHandler}
-        handleOnClose={handleOnClose}
-      />
-      <div className="user-log">
-        {currentUser ? (
-          <div className="buttons">
-            <button type="submit" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className="buttons">
-            <button type="submit" onClick={handleLogin}>
-              Login
-            </button>
-            <button type="submit" onClick={handleRegister}>
-              Register
-            </button>
-          </div>
-        )}
-      </div>
-      {showRegister && <Register toggleShowRegister={toggleShowRegister} />}
-      {showLogin && <Login toggleShowLogin={toggleShowLogin} />}
+      {newPlace.isSet && (
+        <NewPlace
+          viewport={viewport}
+          newPlace={newPlace}
+          formSubmitHandler={formSubmitHandler}
+          handleOnClose={handleOnClose}
+        />
+      )}
+      <SearchForm handleSearchSubmit={handleSearchSubmit} viewport={viewport} />
     </ReactMapGL>
   );
 };
