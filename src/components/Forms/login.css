@@ -116,12 +116,12 @@
   color: black;
 }
 
-input::placeholder {
+.form-field input::placeholder {
   color: black;
   opacity: 0.4;
 }
 
-input:focus {
+.form-field input:focus {
   outline: none;
   box-shadow: 8px 7px 5px rgb(22, 21, 21);
   transition: all 350ms;
