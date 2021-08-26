@@ -15,8 +15,6 @@ import { useCurrentWidth, useCurrentHeight } from '../../Helpers/Resize';
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
 const Map = (props) => {
-  const { currentUser, setCurrentUser } = props;
-
   const [pins, setPins] = useState(defaultPinsState);
   const [newPlace, setNewPlace] = useState(defaultNewPlace);
   const [viewport, setViewport] = useState(defaultViewport);
@@ -26,27 +24,27 @@ const Map = (props) => {
   const formSubmitHandler = async (data) => {
     try {
       setNewPlace(defaultNewPlace);
-      data.username = currentUser;
       data.latitude = newPlace.latitude;
       data.longitude = newPlace.longitude;
-      const responseJSON = await axios.post(`${REACT_APP_SERVER}/api/pin/`, {
-        pin: data,
-      });
+
+      const token = localStorage.getItem('token');
+
+      if (!token) throw new Error('Login First');
+
+      const responseJSON = await axios.post(
+        `${REACT_APP_SERVER}/api/pin/`,
+        {
+          pin: data,
+        },
+        { headers: { Authorization: token } }
+      );
       console.log(responseJSON);
+
       setPins((prev) => [...prev, responseJSON.data.pin]);
     } catch (error) {
       console.error(error.message);
     }
   };
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    const userJSON = localStorage.getItem('user');
-    const parsedUser = JSON.parse(userJSON);
-    console.log(parsedUser);
-    setCurrentUser(parsedUser);
-  }, [setCurrentUser]);
 
   useEffect(() => {
     try {

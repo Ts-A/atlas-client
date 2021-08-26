@@ -44,7 +44,7 @@ const Pins = (props) => {
   const popups = pins.map((pin) => {
     const { latitude, longitude, _id } = pin;
     return (
-      <div>
+      <div key={_id}>
         {showPopup && currentID === _id && (
           <Popup
             latitude={latitude}
