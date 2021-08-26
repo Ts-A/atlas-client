@@ -36,12 +36,6 @@ const NewPlace = (props) => {
 
           setPlace((prev) => ({ ...prev, isSet: true, data: data.results }));
 
-          console.log(responseJSON);
-          console.log(responseJSON.data.results[0].components.city);
-          console.log(responseJSON.data.results[0].components.country);
-          console.log(responseJSON.data.results[0].components._type);
-          console.log(responseJSON.status);
-          console.log(responseJSON.data.results[0].formatted);
           const searchQuery = responseJSON.data.results[0].components.country;
           const photos = await unsplashAPI.search.getPhotos({
             query: searchQuery,
@@ -50,16 +44,11 @@ const NewPlace = (props) => {
             orderBy: 'relevant',
           });
 
-          console.log(photos.response);
-
           setPlace((prev) => ({
             ...prev,
             relatedImages: photos.response.results,
           }));
 
-          console.log(photos.response.results);
-          console.log(photos.response);
-          console.log(photos.status);
           return true;
         } catch (error) {
           console.error(error);

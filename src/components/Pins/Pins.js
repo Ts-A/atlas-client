@@ -30,6 +30,7 @@ const Pins = (props) => {
                 className="material-icons"
                 style={{
                   fontSize: viewport.zoom * 7,
+                  color: currentID === _id ? 'blue' : 'black',
                 }}
               >
                 room
@@ -38,7 +39,7 @@ const Pins = (props) => {
           </Marker>
         );
       }),
-    [pins, viewport, handleMarkerClick]
+    [pins, viewport, handleMarkerClick, currentID]
   );
 
   const popups = pins.map((pin) => {

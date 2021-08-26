@@ -16,7 +16,6 @@ const PinForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // validate(data);
     submitHandler(formData);
     setFormData(defaultFormState);
   };

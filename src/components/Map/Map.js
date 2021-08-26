@@ -11,6 +11,7 @@ import {
 } from '../../defaultStates';
 import SearchForm from '../Forms/searchForm';
 import { useCurrentWidth, useCurrentHeight } from '../../Helpers/Resize';
+import { toast } from 'react-hot-toast';
 
 const { REACT_APP_MAPBOX, REACT_APP_MAP, REACT_APP_SERVER } = process.env;
 
@@ -29,7 +30,7 @@ const Map = (props) => {
 
       const token = localStorage.getItem('token');
 
-      if (!token) throw new Error('Login First');
+      if (!token) throw new Error('You have to login, to be able to add pins');
 
       const responseJSON = await axios.post(
         `${REACT_APP_SERVER}/api/pin/`,
@@ -40,8 +41,13 @@ const Map = (props) => {
       );
       console.log(responseJSON);
 
-      setPins((prev) => [...prev, responseJSON.data.pin]);
+      const { pin } = responseJSON.data;
+
+      toast.success(`Such a beautiful place, ${pin.title}!`);
+
+      setPins((prev) => [...prev, pin]);
     } catch (error) {
+      toast.error(error.message);
       console.error(error.message);
     }
   };
